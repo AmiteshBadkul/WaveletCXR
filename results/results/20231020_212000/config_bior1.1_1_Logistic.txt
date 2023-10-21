@@ -1,0 +1,1 @@
+{'wavelet_type': 'bior1.1', 'level': 1, 'input_dir': '../dataset', 'algorithm': 'Logistic', 'n_estimators': 100, 'max_depth': None, 'learning_rate': 0.1, 'max_iter': 100, 'output_dir': '../results', 'ablation': 'True'}
