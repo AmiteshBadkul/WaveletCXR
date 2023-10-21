@@ -13,6 +13,7 @@ def main():
     parser.add_argument("--learning_rate", type=float, default=0.001, help="Learning rate for optimizer.")
     parser.add_argument("--num_epochs", type=int, default=10, help="Number of epochs for training.")
     parser.add_argument("--output_dir", required=True, help="Directory to save the trained model and results.")
+    parser.add_argument("--architecture", type=str, default="resnet50", choices=["resnet50", "densenet121", "vgg16"], help="CNN architecture to use for training.")
 
     args = parser.parse_args()
 

@@ -6,11 +6,30 @@ import torch.optim as optim
 from torchvision.models import resnet50
 from utils import measure_computational_load
 
-def initialize_model(num_classes=3):
-    model = resnet50(weights=ResNet50_Weights.DEFAULT)
+def initialize_model(architecture="resnet50", num_classes=3):
+    if architecture == "resnet50":
+        model = torchvision.models.resnet50(pretrained=True)
+    elif architecture == "densenet121":
+        model = torchvision.models.densenet121(pretrained=True)
+    elif architecture == "vgg16":
+        model = torchvision.models.vgg16(pretrained=True)
+    elif architecture == "alexnet":
+        model = torchvision.models.alexnet(pretrained=True)
+    elif architecture == "squeezenet":
+        model = torchvision.models.squeezenet1_0(pretrained=True)
     # Adjust the final layer to the number of classes
-    num_ftrs = model.fc.in_features
-    model.fc = nn.Linear(num_ftrs, num_classes)
+    if "resnet" in architecture:
+        num_ftrs = model.fc.in_features
+        model.fc = nn.Linear(num_ftrs, num_classes)
+    elif "densenet" in architecture:
+        num_ftrs = model.classifier.in_features
+        model.classifier = nn.Linear(num_ftrs, num_classes)
+    elif "vgg" in architecture:
+        num_ftrs = model.classifier[6].in_features
+        model.classifier[6] = nn.Linear(num_ftrs, num_classes)
+    elif "alexnet" in architecture:
+        num_ftrs = model.classifier[6].in_features
+        model.classifier[6] = nn.Linear(num_ftrs, num_classes)
     return model
 
 @measure_computational_load

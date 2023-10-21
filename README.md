@@ -120,7 +120,8 @@ This project delves into the potential of wavelet transforms in digital image pr
 ### Additional Notes:
 
 - The `trainer.py` script provides functionalities for training and evaluating models based on the wavelet-processed dataset.
-- The `utils.py` script contains functions for measuring the computational load. 
+- The `utils.py` script contains functions for measuring the computational load.
+- The `code/cnn/` folder contains the files associated with running and storing the various CNN models with functionality to save the performance and computational load. 
 
 ## Acknowledgments
 
