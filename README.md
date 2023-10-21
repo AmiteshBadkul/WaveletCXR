@@ -11,6 +11,9 @@ This project delves into the potential of wavelet transforms in digital image pr
 - Training and evaluation of machine learning models, including RandomForest, XGBoost, and Logistic Regression.
 - Ablation studies by zeroing out wavelet features.
 
+## Architecture
+![Architecture](architecture.png)
+
 ## Getting Started
 
 ### Prerequisites
