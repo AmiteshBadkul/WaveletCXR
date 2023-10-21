@@ -1,20 +1,22 @@
 import torch
 import torch.nn as nn
+from torchvision.models import ResNet50_Weights
+from sklearn.metrics import precision_recall_curve, auc, roc_auc_score, f1_score, confusion_matrix, precision_score, recall_score
 import torch.optim as optim
 from torchvision.models import resnet50
-from sklearn.metrics import precision_recall_curve, auc, roc_auc_score, f1_score
-from .utils import measure_computational_load
+from utils import measure_computational_load
 
-def initialize_model(num_classes=3, use_pretrained=True):
-    model = resnet50(pretrained=use_pretrained)
+def initialize_model(num_classes=3):
+    model = resnet50(weights=ResNet50_Weights.DEFAULT)
     # Adjust the final layer to the number of classes
     num_ftrs = model.fc.in_features
     model.fc = nn.Linear(num_ftrs, num_classes)
     return model
 
 @measure_computational_load
-def train_model(model, dataloaders, criterion, optimizer, num_epochs=10):
+def train_model(model, dataloaders, criterion, optimizer, num_epochs):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print('device...', device)
     model.to(device)
 
     for epoch in range(num_epochs):
@@ -76,9 +78,12 @@ def evaluate_model(model, dataloader):
     y_scores = [x[1] for x in all_probs]  # Assuming binary classification, taking the score of class 1
 
     accuracy = sum([1 if round(score) == label else 0 for score, label in zip(y_scores, y_true)]) / len(y_true)
+    precision_val = precision_score(y_true, [round(score) for score in y_scores])
+    recall_val = recall_score(y_true, [round(score) for score in y_scores])
+    confusion_mat = confusion_matrix(y_true, [round(score) for score in y_scores])
     precision, recall, _ = precision_recall_curve(y_true, y_scores)
     pr_auc = auc(recall, precision)
     roc_auc = roc_auc_score(y_true, y_scores)
     f1 = f1_score(y_true, [round(score) for score in y_scores])
 
-    return {"Accuracy": accuracy, "PR AUC": pr_auc, "ROC AUC": roc_auc, "F1 Score": f1}
+    return {"Accuracy": accuracy, "Precision": precision_val, "Recall": recall_val, "Confusion Matrix": confusion_mat, "PR AUC": pr_auc, "ROC AUC": roc_auc, "F1 Score": f1}

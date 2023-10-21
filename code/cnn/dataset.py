@@ -1,49 +1,40 @@
-import os
-import cv2
 import torch
-from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms
-import numpy as np
-
-class CXRDataset(Dataset):
-    def __init__(self, data_dir, transform=None):
-        self.data_dir = data_dir
-        self.transform = transform
-        self.classes = sorted(os.listdir(data_dir))
-        self.file_paths = []
-        self.labels = []
-
-        for class_id, class_name in enumerate(self.classes):
-            class_dir = os.path.join(data_dir, class_name)
-            for file_name in os.listdir(class_dir):
-                self.file_paths.append(os.path.join(class_dir, file_name))
-                self.labels.append(class_id)
-
-    def __len__(self):
-        return len(self.file_paths)
-
-    def __getitem__(self, idx):
-        img_path = self.file_paths[idx]
-        label = self.labels[idx]
-        img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
-        img = cv2.resize(img, (256, 256))
-        img = np.expand_dims(img, axis=-1)  # Convert to 3D array (H, W, C)
-
-        if self.transform:
-            img = self.transform(img)
-
-        return img, label
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader, random_split
 
 def get_dataloaders(data_dir, batch_size=16):
-    transform = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485], std=[0.229])  # Normalization values for ImageNet
-    ])
+    # Data augmentation and normalization for training
+    # Just normalization for validation
+    data_transforms = {
+        'train': transforms.Compose([
+            transforms.RandomResizedCrop(224),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+        'val': transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+    }
 
-    train_dataset = CXRDataset(os.path.join(data_dir, 'train'), transform=transform)
-    val_dataset = CXRDataset(os.path.join(data_dir, 'val'), transform=transform)
+    # Create a dataset using ImageFolder
+    full_dataset = datasets.ImageFolder(data_dir, transform=data_transforms['train'])
 
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+    # Split the dataset into training and validation sets
+    train_size = int(0.8 * len(full_dataset))
+    val_size = len(full_dataset) - train_size
+    train_dataset, val_dataset = random_split(full_dataset, [train_size, val_size])
 
-    return train_loader, val_loader
+    # Update the transform of the validation dataset
+    val_dataset.dataset.transform = data_transforms['val']
+
+    # Create dataloaders
+    dataloaders = {
+        'train': DataLoader(train_dataset, batch_size=batch_size, shuffle=True),
+        'val': DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+    }
+
+    return dataloaders

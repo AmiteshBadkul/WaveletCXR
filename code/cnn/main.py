@@ -2,14 +2,13 @@ import os
 import argparse
 import torch
 import pandas as pd
-import joblib
-from dataset import get_dataloaders
+from dataset import get_dataloaders  # Importing from the modified dataset.py
 from trainer import initialize_model, train_model, evaluate_model
-from .utils import measure_computational_load
+from utils import measure_computational_load
 
 def main():
     parser = argparse.ArgumentParser(description="Train and evaluate a deep learning model on CXR images.")
-    parser.add_argument("--data_dir", required=True, help="Root directory containing train and val datasets.")
+    parser.add_argument("--data_dir", required=True, help="Root directory containing the datasets.")
     parser.add_argument("--batch_size", type=int, default=16, help="Batch size for training and validation.")
     parser.add_argument("--learning_rate", type=float, default=0.001, help="Learning rate for optimizer.")
     parser.add_argument("--num_epochs", type=int, default=10, help="Number of epochs for training.")

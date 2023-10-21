@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from trainer import train_evaluate_model, zero_out_wavelet_features
 from utils import measure_computational_load
@@ -19,6 +20,7 @@ def main():
     parser.add_argument("--level", type=int, default=1, help="Decomposition level used for dataset generation.")
     parser.add_argument("--input_dir", required=True, default='../dataset', help="Directory containing the datasets.")
     parser.add_argument("--algorithm", choices=['RF', 'XGBoost', 'Logistic'], required=True, help="Algorithm to use for training.")
+    parser.add_argument("--normalize", default=False, help="Normalize the dataset using standard scaling.")
 
     # Hyperparameters as arguments
     parser.add_argument("--n_estimators", type=int, default=100, help="Number of trees in the forest (RF) or Number of boosting rounds (XGBoost).")
@@ -47,6 +49,9 @@ def main():
         df = zero_out_wavelet_features(df.copy())
 
     X = df.drop("label", axis=1)
+    if args.normalize:
+        scaler = StandardScaler()
+        X = scaler.fit_transform(X)
     y = df["label"]
     # Convert labels to integer classes
     le = LabelEncoder()
