@@ -1,1 +1,0 @@
-{'execution_time (s)': 0.720128059387207, 'memory_usage (MB)': 6.41015625}

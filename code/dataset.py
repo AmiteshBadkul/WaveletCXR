@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import pandas as pd
 import pywt
-from skimage.feature import greycomatrix, greycoprops
+from skimage.feature import graycomatrix, graycoprops
 
 def extract_features(img_path, wavelet_type, level):
     """Extract wavelet-based features from an image."""
@@ -33,12 +33,12 @@ def extract_features(img_path, wavelet_type, level):
 
         # Entropy
         component_uint8 = (component * 255).astype(np.uint8)
-        glcm = greycomatrix(component_uint8, distances=[1], angles=[0], symmetric=True, normed=True)
+        glcm = graycomatrix(component_uint8, distances=[1], angles=[0], symmetric=True, normed=True)
         features[f'{name}_entropy'] = -np.sum(glcm * np.log2(glcm + (glcm == 0)))
 
         # GLCM properties
         for prop in ['contrast', 'homogeneity', 'dissimilarity', 'correlation']:
-            features[f'{name}_{prop}'] = greycoprops(glcm, prop)[0, 0]
+            features[f'{name}_{prop}'] = graycoprops(glcm, prop)[0, 0]
 
     return features
 
@@ -83,6 +83,7 @@ def generate_dataset(wavelet_type='bior2.4', level=1, input_dir=None, label_mapp
     return df
 
 def main():
+    print('started....')
     parser = argparse.ArgumentParser(description="Generate a dataset with wavelet transformed features from CXR images.")
     parser.add_argument("--wavelet_type", default="bior2.4", help="Type of wavelet to use for transformation.")
     parser.add_argument("--level", type=int, default=1, help="Decomposition level for wavelet transform.")
@@ -95,6 +96,7 @@ def main():
     output_filename = f"dataset_{args.wavelet_type}_{args.level}.csv"
     output_path = os.path.join(args.output_dir, output_filename)
     df.to_csv(output_path, index=False)
+    print(f'completed....{output_path}')
 
 if __name__ == "__main__":
     main()

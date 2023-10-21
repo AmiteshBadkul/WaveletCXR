@@ -1,8 +1,12 @@
 import subprocess
 import os
 
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 # List of wavelet types and levels to iterate over
-wavelet_types = ["bior1.1", "bior1.3", "bior2.6", "bior3.1", "bior3.5", "bior6.8"]
+#wavelet_types = ["bior1.1", "bior1.3", "bior2.6", "bior3.1", "bior3.5", "bior6.8"]
+wavelet_types = ["bior3.1", "bior3.5", "bior6.8"]
 levels = [1, 2, 4, 8]
 
 # Input directory

@@ -38,6 +38,9 @@ This project delves into the potential of wavelet transforms in digital image pr
    ```
    conda activate waveletCXR
    ```
+### Data
+
+- Here is the link to the dataset --> [Thoracic Disease Classification](https://www.kaggle.com/datasets/prashant268/chest-xray-covid19-pneumonia)
 
 ## Usage
 
