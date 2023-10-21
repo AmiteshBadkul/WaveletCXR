@@ -100,6 +100,13 @@ This project delves into the potential of wavelet transforms in digital image pr
     # Example command:
     python main.py --input_dir "/path/to/dataset" --output_dir "/path/to/results" --algorithm "RF"
     ```
+4. For automated training with different wavelet configurations:
+    ```bash
+    python all_run.py
+    ```
+
+
+
 ### Additional Notes:
 
 - The `trainer.py` script provides functionalities for training and evaluating models based on the wavelet-processed dataset.
