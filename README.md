@@ -117,4 +117,4 @@ This project delves into the potential of wavelet transforms in digital image pr
 
 ## Acknowledgments
 
-This project was carried out under the supervision of Dr. Sudha Radhika at [Your Home University]. Special thanks to all collaborators and contributors.
+This project was carried out under the supervision of Dr. Sudha Radhika at BITS Pilani, Hyderabad.
