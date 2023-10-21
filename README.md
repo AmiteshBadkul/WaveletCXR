@@ -1,23 +1,23 @@
-### Wavelet Feature Extraction for Thoracic Diseases Detection
+## Wavelet Feature Extraction for Thoracic Diseases Detection
 
-#### Project Description
+### Project Description
 
 This project delves into the potential of wavelet transforms in digital image processing, targeting Chest X-Ray (CXR) scans for thoracic disease detection. Wavelets, mathematical functions that divide signals into time and frequency components, stand as powerful tools in refining image quality and revealing intricate details. Their strength lies in efficiently handling non-stationary signals, making them indispensable for medical imaging, especially in CXR classification. The project originated from the motivation to develop faster diagnostic methods for identifying COVID-19 and evolved to demonstrate a significant reduction in computational costs while maintaining high accuracy levels.
 
-#### Features
+### Features
 
 - Wavelet-based feature extraction from CXR images.
 - Dataset generation for different wavelet configurations.
 - Training and evaluation of machine learning models, including RandomForest, XGBoost, and Logistic Regression.
 - Ablation studies by zeroing out wavelet features.
 
-#### Getting Started
+### Getting Started
 
-##### Prerequisites
+#### Prerequisites
 
 - Ensure you have [conda](https://docs.conda.io/en/latest/) installed.
 
-##### Setting up the Environment
+#### Setting up the Environment
 
 1. Clone the repository:
    ```
@@ -36,7 +36,7 @@ This project delves into the potential of wavelet transforms in digital image pr
    conda activate waveletCXR
    ```
 
-#### Usage
+### Usage
 
 1. To generate a dataset with wavelet transformed features from CXR images:
     ```bash
@@ -100,11 +100,11 @@ This project delves into the potential of wavelet transforms in digital image pr
     # Example command:
     python main.py --input_dir "/path/to/dataset" --output_dir "/path/to/results" --algorithm "RF"
     ```
-##### Additional Notes:
+#### Additional Notes:
 
 - The `trainer.py` script provides functionalities for training and evaluating models based on the wavelet-processed dataset.
 - The `utils.py` script contains utility functions. (Note: The content of `utils.py` was not reviewed in detail during this session.)
 
-#### Acknowledgments
+### Acknowledgments
 
 This project was carried out under the supervision of Dr. Sudha Radhika at [Your Home University]. Special thanks to all collaborators and contributors.
