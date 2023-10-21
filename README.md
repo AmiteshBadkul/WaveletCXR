@@ -111,12 +111,16 @@ This project delves into the potential of wavelet transforms in digital image pr
     python all_run.py
     ```
 
+5. For automated analysis of the results:
+   ```
+   python analysis.py
+   ```
 
 
 ### Additional Notes:
 
 - The `trainer.py` script provides functionalities for training and evaluating models based on the wavelet-processed dataset.
-- The `utils.py` script contains utility functions. (Note: The content of `utils.py` was not reviewed in detail during this session.)
+- The `utils.py` script contains functions for measuring the computational load. 
 
 ## Acknowledgments
 
