@@ -111,10 +111,19 @@ This project delves into the potential of wavelet transforms in digital image pr
     python all_run.py
     ```
 
-5. For automated analysis of the results:
-   ```
-   python analysis.py
-   ```
+5. To aggregate and summarize the results from multiple experiment runs:
+    ```bash
+    # Usage: analysis.py [OPTIONS]
+
+    # Root directory containing the experiment results (default: "../results/results/")
+    --results_root="/path/to/results/root"
+
+    # Path to save the aggregated results (default: "../results/final_results.csv")
+    --output_file="/path/to/output/final_results.csv"
+
+    # Example command:
+    python analysis.py --results_root "../results/results/" --output_file "../results/final_results.csv"
+    ```
 
 
 ### Additional Notes:
